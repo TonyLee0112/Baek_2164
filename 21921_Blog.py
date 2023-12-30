@@ -6,7 +6,7 @@ if Daily == [0] * N:
 else :
     for i in range(1,N) :
         s.append(Daily[i]+s[i-1])
-    maxValue = 0
+    maxValue = s[X-1]
     num = 1
     for current_index in range(N-X) :
         if maxValue < s[current_index+X]-s[current_index] :
