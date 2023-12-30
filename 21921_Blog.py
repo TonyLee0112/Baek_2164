@@ -1,3 +1,4 @@
+#시간복잡도 O(N)
 N, X = map(int, input().split())
 Daily = list(map(int, input().split()))
 
