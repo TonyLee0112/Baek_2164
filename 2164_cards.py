@@ -1,3 +1,4 @@
+#시간복잡도 O(logN)
 N = int(input())
 N_binary = bin(N)
 digit = len(N_binary)-2
