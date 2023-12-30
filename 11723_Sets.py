@@ -1,3 +1,4 @@
+#시간복잡도 O(M)
 import sys
 s = set()
 M = int(sys.stdin.readline())  //readline 쓰니까 시간초과 문제 해결됨
