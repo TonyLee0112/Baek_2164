@@ -1,6 +1,6 @@
 # 대문자 A~Z = 65 ~ 90
 # 소문자 a~z = 97 ~ 122
-
+# 시간 복잡도 O(N)
 a = input()
 ans = ''
 for i in range(len(a)) :
