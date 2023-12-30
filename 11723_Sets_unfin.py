@@ -1,7 +1,8 @@
+import sys
 s = set()
-M = int(input())
+M = int(sys.stdin.readline())  //readline 쓰니까 시간초과 문제 해결됨
 for i in range(M):
-    I = input().split()
+    I = sys.stdin.readline().strip().split()
     if len(I) == 2 :
         I[1] = int(I[1])
 
@@ -29,8 +30,3 @@ for i in range(M):
 
     elif I[0] == 'empty' :
         s = set()
-
-
-
-
-
