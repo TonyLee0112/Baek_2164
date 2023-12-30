@@ -8,12 +8,12 @@ for i in range(1, N):
 maxValue = s[X - 1]
 num = 1
 
-for current_index in range(1, N - X + 1):
-    current_sum = s[current_index + X - 1] - s[current_index - 1]
+for current_index in range(N - X):
+    current_sum = s[current_index + X] - s[current_index]
 
     if maxValue < current_sum:
         maxValue = current_sum
-        num = 1
+        num = 1 # 초기화하는 작업을 빼먹었네
     elif maxValue == current_sum:
         num += 1
 
