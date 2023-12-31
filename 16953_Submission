@@ -1,0 +1,20 @@
+A, B = map(int,input().split())
+# B의 일의 자리수가 1일 때 혹은 0을 포함한 짝수 일때만 가능하다.
+op_cnt = 1
+while A < B :
+    if B%10 == 1 : # B가 10x+1의 꼴을 할 때
+        op_cnt += 1
+        B = (B-1)//10
+
+    elif B%2 == 0 : # B가 2의 배수
+        op_cnt += 1
+        B = B//2
+    else :
+        op_cnt = -1
+        break
+
+if A == B :
+    print(op_cnt)
+else :
+    op_cnt = -1
+    print(op_cnt)
