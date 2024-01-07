@@ -1,70 +1,70 @@
 import sys
 N = int(input())
-previous_goal = 0 # sec단위
+Total_time = 48*60
+prev_t = 0
 winning_team = 0
 Score =[0,0]
-First_team_total = 0 # sec단위
-Second_team_total = 0 # sec단위
+team_1 = 0
+team_2 = 0
 for _ in range(N) :
     team, new_goal = sys.stdin.readline().strip().split()
     team = int(team)
-    new_goal_min = int(new_goal[0])*10 + int(new_goal[1])
-    new_goal_sec = int(new_goal[3])*10 + int(new_goal[4])
-    new_goal = new_goal_min*60+new_goal_sec
-    goal_period = new_goal-previous_goal # 득점 간격
-    Score[team-1] += 1
-    if previous_goal == 0 :
+    new_goal_min = int(new_goal[0]) * 10 + int(new_goal[1])
+    new_goal_sec = int(new_goal[3]) * 10 + int(new_goal[4])
+    new_goal = new_goal_min * 60 + new_goal_sec
+    period = new_goal - prev_t
+    Score[team - 1] += 1
+    # 게임 시작 ~ 첫 골
+    if prev_t == 0 :
         winning_team = team
-        previous_goal = new_goal
+        prev_t = new_goal
+
+    # 첫 골 ~ 마지막 골
     else :
-        previous_goal = new_goal
-        if Score[0] > Score[1] + 1 :
-            winning_team = 1
-            First_team_total += goal_period
-        elif Score[0] == Score[1] + 1 :
-            winning_team = 1
-            # 2대0 -> 2대1
-            if team == 2 :
-                First_team_total += goal_period
-        elif Score[0] == Score[1] :
-            winning_team = 0
-            if team == 1 :
-                Second_team_total += goal_period
-            elif team == 2 :
-                First_team_total += goal_period
-        elif Score[0] == Score[1] - 1 :
-            winning_team = 2
-            if team == 1 :
-                # 0대2 -> 1대2
-                Second_team_total += goal_period
-
-
-
-        elif Score[0] < Score[1] - 1 :
-            winning_team = 2
-            Second_team_total += goal_period
-
-
-if winning_team == 1 :
-    goal_period = 48 * 60 - previous_goal
-    First_team_total += goal_period
+        diff = Score[0] - Score[1]
+        prev_t = new_goal
+        if team == 1:
+            if diff > 1 :
+                # 2:1 -> 3:1
+                winning_team = 1
+                team_1 += period
+            elif diff == 1 :
+                # 1:1 -> 2:1
+                winning_team = 1
+            elif diff == 0 :
+                # 1:2 -> 2:2
+                winning_team = 0
+                team_2 += period
+            elif diff < 0 :
+                # 1:3 -> 2:3
+                winning_team = 2
+                team_2 += period
+        elif team == 2 :
+            if diff > 0 :
+                # 3:1 -> 3:2
+                winning_team = 1
+                team_1 += period
+            elif diff == 0 :
+                # 2:1 -> 2:2
+                winning_team = 0
+                team_1 += period
+            elif diff == -1 :
+                # 1:1 -> 1:2
+                winning_team = 2
+            elif diff < -1 :
+                # 1:2 -> 1:3
+                winning_team = 2
+                team_2 += period
+# 마지막 골 ~ 게임 종료
+goal_period = Total_time - prev_t
+if winning_team == 1:
+    team_1 += goal_period
 elif winning_team == 2:
-    goal_period = 48 * 60 - previous_goal
-    Second_team_total += goal_period
+    team_2 += goal_period
 
-def sec_to_time(t) :
-    min = str(t // 60)
-    sec = str(t % 60)
-    if len(min) == 1 :
-        if len(sec) == 1 :
-            return "0{}:0{}".format(min,sec)
-        else :
-            return "0{}:{}".format(min,sec)
-    else :
-        if len(sec) == 1 :
-            return "{}:0{}".format(min,sec)
-        else :
-            return "{}:{}".format(min,sec)
+def print_time(t):
+    min, sec = divmod(t, 60)
+    return "{:02}:{:02}".format(min, sec)
 
-print(sec_to_time(First_team_total))
-print(sec_to_time(Second_team_total))
+print(print_time(team_1))
+print(print_time(team_2))
