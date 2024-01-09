@@ -1,0 +1,27 @@
+n = int(input()) # 인원 수
+A, B = map(int,input().split()) # A와 B의 촌수를 계산
+m = int(input()) # 부모 자식의 관계 수
+
+family = [[] for i in range(n+1)]
+
+for i in range(m) :
+    x, y = map(int,input().split())
+    # 상하로만 연결
+    family[x].append(y)
+    family[y].append(x)
+
+visited = [0 for _ in range(n+1)]
+Matched = 0
+def dfs(Target,cnt) : # 재귀 이용
+    visited[Target] = 1
+    global Matched
+    if Target == B :
+        print(cnt)
+        Matched = 1
+    for i in family[Target] :
+        if visited[i] == 0 :
+            dfs(i,cnt+1)
+
+dfs(A,0)
+if Matched == 0 :
+    print(-1)
