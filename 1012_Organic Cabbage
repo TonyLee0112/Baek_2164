@@ -1,31 +1,33 @@
-# T : Test Case 의 개수
-# M : 가로 길이, N : 세로 길이, K : 배추의 개수
 import sys
+
+def check(x, y):
+    global worms
+    if visited[y][x] == False:
+        visited[y][x] = True
+        if ground[y][x] == 1:
+            cnt = 0
+            for dx, dy in (0, 1), (1, 0), (0, -1), (-1, 0):
+                X = x + dx
+                Y = y + dy
+                if 0 <= X < M and 0 <= Y < N:
+                    if visited[Y][X] == True:
+                        cnt += 1
+            if cnt == 0:
+                worms += 1
+            elif cnt > 1:
+                worms -= cnt - 1
+
 T = int(sys.stdin.readline())
-for j in range(T) :
+
+for j in range(T):
     M, N, K = map(int, sys.stdin.readline().strip().split())
-    ground = [[0 for _ in range(M)] for _ in range(N)]  # N층 M호
+    ground = [[0 for _ in range(M)] for _ in range(N)]
     visited = [[False for _ in range(M)] for _ in range(N)]
     worms = 0
-    for i in range(K) :
+
+    for i in range(K):
         x, y = map(int, sys.stdin.readline().strip().split())
         ground[y][x] = 1
-        def check(x,y) :
-            global worms
-            # visited=True 라는 것 자체가 배추가 있다는 것.
-            if visited[y][x] == False :
-                visited[y][x] = True #방문표시
-                if ground[y][x] == 1 :
-                    cnt = 0
-                    for dx, dy in (0, 1), (1, 0), (0, -1), (-1, 0): # 주변 탐색
-                        X = x + dx
-                        Y = y + dy
-                        if (0 <= X and X < M) and (0 <= Y and Y < N):
-                            if visited[Y][X] == True :
-                                cnt += 1
-                    if cnt == 0 : # 4방향 탐색 후 주변에 배추가 없어 그럼 worm 늘려
-                        worms += 1
-                    elif cnt > 1 : # 미탐색 배추에 의해 늘어난 worm들은 없으니까 괜찮
-                        worms -= cnt - 1
-        check(x,y)
+        check(x, y)
+
     print(worms)
