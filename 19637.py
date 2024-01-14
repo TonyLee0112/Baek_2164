@@ -13,7 +13,6 @@ for i in range(N):
         Title.append(title)
         Power.append(figure)
 
-
 def Binary_search(target, start, end):
     if (Power[start] < target <= Power[end]) :
         if (end == start + 1) :
