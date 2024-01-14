@@ -12,23 +12,21 @@ for i in range(N):
     elif not figure in Power:
         Title.append(title)
         Power.append(figure)
-
 def Binary_search(target, start, end):
-    if (Power[start] < target <= Power[end]) :
-        if (end == start + 1) :
-            return Title[end]
-        else :
-            meanVal = (start+end)//2
-            if target > Power[meanVal] :
-                Binary_search(target,meanVal,end)
-            elif target == Power[meanVal] :
-                return Title[meanVal]
-            else :
-                Binary_search(target,start,meanVal)
-    elif target <= Power[start] :
+    if target <= Power[start] :
         return Title[start]
+    elif end == start + 1 :
+        return Title[end]
+    else :
+        meanVal = (start+end)//2
+        if target > Power[meanVal] :
+            return Binary_search(target,meanVal,end)
+        elif target == Power[meanVal] :
+            return Title[meanVal]
+        else :
+            return Binary_search(target,start,meanVal)
+
 
 l = len(Power)
 for j in range(M) :
-    pow = int(sys.stdin.readline())
-    print(Binary_search(pow,0,l-1))
+    print(Binary_search(int(sys.stdin.readline()),0,l-1))
