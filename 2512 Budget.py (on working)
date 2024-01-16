@@ -1,0 +1,45 @@
+import sys
+input = sys.stdin.readline
+N = int(input())
+Requests = list(map(int,input().split()))
+Budget = int(input())
+Requests.sort()
+if sum(Requests) <= Budget :
+    print(Requests[len(Requests)-1])
+else :
+    m_index = (N-1)//2
+    Remain_num = (N+1)//2
+    curSum = 0
+    max_val = Requests[m_index]
+    print("m_index : {}".format(m_index))
+    print("Remain_num : {}".format(Remain_num))
+    for i in range(N) :
+        if i <= m_index :
+            curSum += Requests[i]
+        else :
+            curSum += max_val
+    dx = 1
+    Terminate = 0
+    print("curSum : {}".format(curSum))
+    while Terminate == 0 :
+        Remain_Budget = Budget - curSum # 15
+        Remains_per_num = Remain_Budget // Remain_num # 15//2 = 7
+        print("Remain_Budget : {} for dx = {}".format(Remain_Budget, dx))
+        print("Remain_per_num : {} for dx = {}".format(Remains_per_num, dx))
+        print("m_index + dx : {}".format(m_index + dx))
+        if Requests[m_index + dx] >= max_val + Remains_per_num : # 140 > 120 + 7
+            print("Requests[m_index + dx] : {}".format(Requests[m_index + dx]))
+            print("max_val : {}".format(max_val))
+            print("Remains_per_num : {}".format(Remains_per_num))
+            max_val += Remains_per_num # 127
+            curSum += Remains_per_num * Remain_num # 484
+            Terminate = 1
+        else :
+            curSum += (Requests[m_index + dx] - Requests[m_index + dx - 1]) * Remain_num
+            Remain_num -= 1
+            max_val = Requests[m_index + dx]
+            print("max_val (updated) : {}".format(max_val))
+            dx += 1
+
+    print("Total cost is : {}".format(curSum))
+    print(max_val)
