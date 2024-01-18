@@ -7,30 +7,22 @@ Requests.sort()
 if sum(Requests) <= Budget :
     print(Requests[len(Requests)-1])
 else :
-    m_index = (N-1)//2
-    Remain_num = (N+1)//2
+    m_index = (N-1)//2 # 전체 지역들 중 중간 바로 전 지역 - 여기까진 예산 모두 지원 가능
+    Remain_num = (N+1)//2 # 위 지역들을 제외하고 남은 지역들의 수
     curSum = 0
-    max_val = Requests[m_index]
-    print("m_index : {}".format(m_index))
-    print("Remain_num : {}".format(Remain_num))
+    max_val = Requests[m_index] # 지역수준 최대 지원 가능 예산
     for i in range(N) :
-        if i <= m_index :
+        if i <= m_index : # m_index = 1
             curSum += Requests[i]
         else :
             curSum += max_val
+    # curSum = 110 + 120 + 120 + 120
     dx = 1
-    Terminate = 0
-    print("curSum : {}".format(curSum))
+    Terminate = 0 # while 문 탈출key
     while Terminate == 0 :
-        Remain_Budget = Budget - curSum # 15
-        Remains_per_num = Remain_Budget // Remain_num # 15//2 = 7
-        print("Remain_Budget : {} for dx = {}".format(Remain_Budget, dx))
-        print("Remain_per_num : {} for dx = {}".format(Remains_per_num, dx))
-        print("m_index + dx : {}".format(m_index + dx))
-        if Requests[m_index + dx] >= max_val + Remains_per_num : # 140 > 120 + 7
-            print("Requests[m_index + dx] : {}".format(Requests[m_index + dx]))
-            print("max_val : {}".format(max_val))
-            print("Remains_per_num : {}".format(Remains_per_num))
+        Remain_Budget = Budget - curSum # 현재까지 지원해주고 남은 예산
+        Remains_per_num = Remain_Budget // Remain_num #  남은 지역들로 나눔
+        if Requests[m_index + dx] >= max_val + Remains_per_num : # 140 >= 120 + 7
             max_val += Remains_per_num # 127
             curSum += Remains_per_num * Remain_num # 484
             Terminate = 1
@@ -38,8 +30,6 @@ else :
             curSum += (Requests[m_index + dx] - Requests[m_index + dx - 1]) * Remain_num
             Remain_num -= 1
             max_val = Requests[m_index + dx]
-            print("max_val (updated) : {}".format(max_val))
             dx += 1
 
-    print("Total cost is : {}".format(curSum))
     print(max_val)
