@@ -1,0 +1,21 @@
+import sys
+input = sys.stdin.readline
+Vertice, Edges = map(int,input().split())
+start = int(input())
+inf = 20001
+graph = [[] for _ in range(inf)]
+for i in range(Edges) :
+    a,b,cost = map(int,input().split())
+    graph[a].append((b,cost))
+
+cloud = [False] * (Vertice+1)
+dist = [inf] * (Vertice+1)
+def dijkstra(start) :
+    cloud[start] = True
+    cnt = -1
+    for i in graph[start] :
+        if cloud[i[0]] == False :
+            if cnt == -1 :
+                
+
+
